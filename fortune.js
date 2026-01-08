@@ -29,19 +29,19 @@ function lifePathNumber(birthday) {
   // 全部足す
   let sum = y1 + y2 + y3 + y4 + m1 + m2 + d1 + d2;
 
-  // 途中でゾロ目なら即 return
+  // 途中でマスターナンバーなら即 return
   if (isMasterNumber(sum)) return sum;
 
-  // 2桁ならもう一度足す
-  if (sum >= 10) {
-    const s = String(sum);
-    sum = Number(s[0]) + Number(s[1]);
+  // 2桁以上は1桁になるまで足す
+  while (sum >= 10) {
+    const digits = String(sum).split("").map(Number);
+    sum = digits.reduce((a, b) => a + b, 0);
 
-    // ゾロ目チェック
+    // マスターナンバーなら返す
     if (isMasterNumber(sum)) return sum;
   }
 
-  return sum; // 1桁の場合
+  return sum; // 最終的に1桁
 }
 
 /**********************
@@ -52,14 +52,14 @@ function compatibilityNumber(num1, num2) {
 
   if (isMasterNumber(total)) return total;
 
-  if (total >= 10) {
-    const s = String(total);
-    total = Number(s[0]) + Number(s[1]);
+  while (total >= 10) {
+    const digits = String(total).split("").map(Number);
+    total = digits.reduce((a, b) => a + b, 0);
 
     if (isMasterNumber(total)) return total;
   }
 
-  return total;
+  return total; // 1桁
 }
 
 /**********************
