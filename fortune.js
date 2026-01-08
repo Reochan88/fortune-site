@@ -1,12 +1,8 @@
 /**********************
- * 共通
+ * 共通ユーティリティ
  **********************/
 
-function isMasterNumber(num) {
-  return num === 11 || num === 22 || num === 33;
-}
-
-// 数字を足す
+// 数字を足す（例: 29 → 11）
 function digitSum(num) {
   return num
     .toString()
@@ -15,14 +11,38 @@ function digitSum(num) {
     .reduce((a, b) => a + b, 0);
 }
 
-// ゾロ目が出たら即 return
+// ゾロ目即リターン・ループなし
 function reduceNumber(num) {
-  while (num > 9) {
-    if (isMasterNumber(num)) {
-      return num; // ★ 即確定
-    }
-    num = digitSum(num);
+  // ① 最初からゾロ目なら確定
+  if (num === 11 || num === 22 || num === 33) {
+    return num;
   }
+
+  // ② 2桁以上なら1回足す
+  if (num >= 10) {
+    const sum1 = digitSum(num);
+
+    // ★ 途中でゾロ目が出たら即確定
+    if (sum1 === 11 || sum1 === 22 || sum1 === 33) {
+      return sum1;
+    }
+
+    // ③ まだ2桁ならもう1回だけ足す
+    if (sum1 >= 10) {
+      const sum2 = digitSum(sum1);
+
+      // ★ 念のためゾロ目チェック
+      if (sum2 === 11 || sum2 === 22 || sum2 === 33) {
+        return sum2;
+      }
+
+      return sum2;
+    }
+
+    return sum1;
+  }
+
+  // ④ 1桁ならそのまま
   return num;
 }
 
@@ -31,13 +51,11 @@ function reduceNumber(num) {
  **********************/
 
 function lifePathNumber(year, month, day) {
-  // 年・月・日をまず合計
-  let total =
+  const total =
     digitSum(year) +
     digitSum(month) +
     digitSum(day);
 
-  // ★ ここでゾロ目即確定
   return reduceNumber(total);
 }
 
@@ -47,7 +65,7 @@ function lifePathNumber(year, month, day) {
 
 function compatibilityNumber(num1, num2) {
   const total = num1 + num2;
-  return reduceNumber(total); // ★ ここも即確定
+  return reduceNumber(total);
 }
 
 const compatibilityMessage = {
@@ -61,7 +79,7 @@ const compatibilityMessage = {
   8: "現実的でパワフルな関係。",
   9: "無条件の愛で結ばれる関係。",
   11: "魂レベルで強く引き合う特別な縁。",
-  22: "現実世界で使命を共にする運命的な縁。",
+  22: "現実を共に築く使命的な縁。",
   33: "無償の愛で結ばれる究極の相性。"
 };
 
@@ -99,8 +117,4 @@ function calcCompatibility() {
   const message =
     compatibilityMessage[comp] || "不思議なご縁で結ばれています。";
 
-  document.getElementById("compatibilityResult").innerHTML = `
-    <strong>相性数：${comp}</strong><br>
-    ${message}
-  `;
-}
+  document.getElementById("compatibi
