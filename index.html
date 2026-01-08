@@ -2,13 +2,32 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>今日の占い</title>
+  <title>数秘術 相性占い</title>
 </head>
 <body>
-  <h1>🔮 今日の占い 🔮</h1>
-  <button onclick="fortune()">占う</button>
+
+  <h1>🔮 数秘術 相性占い 🔮</h1>
+
+  <h2>あなたの数秘</h2>
+  <input type="date" id="birthday">
+  <button onclick="calcLifePath()">占う</button>
   <p id="result"></p>
 
+  <hr>
+
+  <h2>相性占い</h2>
+
+  <label>Aさん 生年月日</label><br>
+  <input type="date" id="birthdayA"><br><br>
+
+  <label>Bさん 生年月日</label><br>
+  <input type="date" id="birthdayB"><br><br>
+
+  <button onclick="calcCompatibility()">相性を占う</button>
+
+  <p id="compatibilityResult"></p>
+
+  <!-- JS 読み込み -->
   <script src="fortune.js"></script>
 </body>
 </html>
