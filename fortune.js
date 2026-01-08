@@ -13,7 +13,6 @@ function isMasterNumber(num) {
  * birthday: "YYYY-MM-DD" 形式
  **********************/
 function lifePathNumber(birthday) {
-  // 数字だけ抽出
   const str = birthday.replace(/[^0-9]/g, "");
 
   // 1桁ずつバラバラに取得（変更なし）
@@ -26,7 +25,6 @@ function lifePathNumber(birthday) {
   const d1 = Number(str[6]);
   const d2 = Number(str[7]);
 
-  // 全部足す
   let sum = y1 + y2 + y3 + y4 + m1 + m2 + d1 + d2;
 
   // 途中でマスターナンバーなら即 return
@@ -34,10 +32,12 @@ function lifePathNumber(birthday) {
 
   // 2桁以上は1桁になるまで足す
   while (sum >= 10) {
+    // 10になったら強制的に1にして返す
+    if (sum === 10) return 1;
+
     const digits = String(sum).split("").map(Number);
     sum = digits.reduce((a, b) => a + b, 0);
 
-    // マスターナンバーなら返す
     if (isMasterNumber(sum)) return sum;
   }
 
@@ -53,13 +53,15 @@ function compatibilityNumber(num1, num2) {
   if (isMasterNumber(total)) return total;
 
   while (total >= 10) {
+    if (total === 10) return 1;
+
     const digits = String(total).split("").map(Number);
     total = digits.reduce((a, b) => a + b, 0);
 
     if (isMasterNumber(total)) return total;
   }
 
-  return total; // 1桁
+  return total;
 }
 
 /**********************
