@@ -10,50 +10,50 @@ function isMasterNumber(num) {
  * birthday: "YYYY-MM-DD" 形式
  **********************/
 function lifePathNumber(birthday) {
-  // 数字だけ取り出す
-  const numbers = birthday.replace(/[^0-9]/g, "").split("");
+  // 数字だけ抽出
+  const str = birthday.replace(/[^0-9]/g, "");
 
-  let sum = 0;
+  // 1桁ずつバラバラに取得
+  const y1 = Number(str[0]);
+  const y2 = Number(str[1]);
+  const y3 = Number(str[2]);
+  const y4 = Number(str[3]);
+  const m1 = Number(str[4]);
+  const m2 = Number(str[5]);
+  const d1 = Number(str[6]);
+  const d2 = Number(str[7]);
 
-  // 1桁ずつ足す
-  for (let i = 0; i < numbers.length; i++) {
-    sum += Number(numbers[i]);
+  // 全部足す
+  let sum = y1 + y2 + y3 + y4 + m1 + m2 + d1 + d2;
 
-    // ★ 途中でゾロ目なら即 return
-    if (isMasterNumber(sum)) {
-      return sum;
-    }
-  }
+  // 途中でゾロ目なら即 return
+  if (isMasterNumber(sum)) return sum;
 
-  // 2桁以上ならもう一度足す
-  if (sum >= 10 && !isMasterNumber(sum)) {
+  // 2桁ならもう一度足す
+  if (sum >= 10) {
     const s = String(sum);
     sum = Number(s[0]) + Number(s[1]);
 
-    // 念のためゾロ目チェック
-    if (isMasterNumber(sum)) {
-      return sum;
-    }
+    // ゾロ目チェック
+    if (isMasterNumber(sum)) return sum;
   }
 
-  return sum;
+  return sum; // 1桁の場合
 }
 
 /**********************
  * 相性占い
  **********************/
 function compatibilityNumber(num1, num2) {
-  const total = num1 + num2;
+  let total = num1 + num2;
 
-  // ゾロ目即 return
   if (isMasterNumber(total)) return total;
 
-  // 2桁以上ならもう一度足す
   if (total >= 10) {
     const s = String(total);
-    const sum = Number(s[0]) + Number(s[1]);
-    if (isMasterNumber(sum)) return sum;
-    return sum;
+    total = Number(s[0]) + Number(s[1]);
+
+    if (isMasterNumber(total)) return total;
   }
 
   return total;
