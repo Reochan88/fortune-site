@@ -3,31 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <title>数秘術 相性占い</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>🔮 数秘術 相性占い 🔮</h1>
+  <div class="container">
+    <h1>🔮 数秘術 相性占い 🔮</h1>
 
-  <h2>あなたの数秘</h2>
-  <input type="date" id="birthday">
-  <button onclick="calcLifePath()">占う</button>
-  <p id="result"></p>
+    <section class="card">
+      <h2>あなたの数秘</h2>
+      <input type="date" id="birthday">
+      <button onclick="calcLifePath()">占う</button>
+      <p id="result"></p>
+    </section>
 
-  <hr>
+    <section class="card">
+      <h2>相性占い</h2>
 
-  <h2>相性占い</h2>
+      <label>Aさん 生年月日</label>
+      <input type="date" id="birthdayA">
 
-  <label>Aさん 生年月日</label><br>
-  <input type="date" id="birthdayA"><br><br>
+      <label>Bさん 生年月日</label>
+      <input type="date" id="birthdayB">
 
-  <label>Bさん 生年月日</label><br>
-  <input type="date" id="birthdayB"><br><br>
+      <button onclick="calcCompatibility()">相性を占う</button>
+      <p id="compatibilityResult"></p>
+    </section>
+  </div>
 
-  <button onclick="calcCompatibility()">相性を占う</button>
-
-  <p id="compatibilityResult"></p>
-
-  <!-- JS 読み込み -->
   <script src="fortune.js"></script>
 </body>
 </html>
