@@ -2,53 +2,27 @@
  * 共通
  **********************/
 
-// ゾロ目判定
 function isMasterNumber(num) {
   return num === 11 || num === 22 || num === 33;
 }
 
-// ループなし・単純に足す版
+// 数字を足す
+function digitSum(num) {
+  return num
+    .toString()
+    .split("")
+    .map(Number)
+    .reduce((a, b) => a + b, 0);
+}
+
+// ゾロ目が出たら即 return
 function reduceNumber(num) {
-  // ① 最初にゾロ目なら即確定
-  if (isMasterNumber(num)) {
-    return num;
-  }
-
-  // ② 2桁以上なら1回目の足し算
-  if (num >= 10) {
-    const str1 = String(num);
-    let sum1 = 0;
-
-    sum1 += Number(str1[0]);
-    if (str1[1]) sum1 += Number(str1[1]);
-    if (str1[2]) sum1 += Number(str1[2]);
-    if (str1[3]) sum1 += Number(str1[3]);
-
-    // ★ 途中ゾロ目
-    if (isMasterNumber(sum1)) {
-      return sum1;
+  while (num > 9) {
+    if (isMasterNumber(num)) {
+      return num; // ★ 即確定
     }
-
-    // ③ まだ2桁なら2回目の足し算
-    if (sum1 >= 10) {
-      const str2 = String(sum1);
-      let sum2 = 0;
-
-      sum2 += Number(str2[0]);
-      if (str2[1]) sum2 += Number(str2[1]);
-
-      // ★ 念のためゾロ目
-      if (isMasterNumber(sum2)) {
-        return sum2;
-      }
-
-      return sum2;
-    }
-
-    return sum1;
+    num = digitSum(num);
   }
-
-  // ④ 1桁はそのまま
   return num;
 }
 
@@ -57,21 +31,13 @@ function reduceNumber(num) {
  **********************/
 
 function lifePathNumber(year, month, day) {
-  const y = String(year);
-  const m = String(month);
-  const d = String(day);
+  // 年・月・日をまず合計
+  let total =
+    digitSum(year) +
+    digitSum(month) +
+    digitSum(day);
 
-  let total = 0;
-
-  // 年
-  total += Number(y[0]) + Number(y[1]) + Number(y[2]) + Number(y[3]);
-  // 月
-  total += Number(m[0]);
-  if (m[1]) total += Number(m[1]);
-  // 日
-  total += Number(d[0]);
-  if (d[1]) total += Number(d[1]);
-
+  // ★ ここでゾロ目即確定
   return reduceNumber(total);
 }
 
@@ -80,7 +46,8 @@ function lifePathNumber(year, month, day) {
  **********************/
 
 function compatibilityNumber(num1, num2) {
-  return reduceNumber(num1 + num2);
+  const total = num1 + num2;
+  return reduceNumber(total); // ★ ここも即確定
 }
 
 const compatibilityMessage = {
@@ -94,7 +61,7 @@ const compatibilityMessage = {
   8: "現実的でパワフルな関係。",
   9: "無条件の愛で結ばれる関係。",
   11: "魂レベルで強く引き合う特別な縁。",
-  22: "現実を共に築く使命的な縁。",
+  22: "現実世界で使命を共にする運命的な縁。",
   33: "無償の愛で結ばれる究極の相性。"
 };
 
