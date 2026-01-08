@@ -1,12 +1,12 @@
 /**********************
- * 数秘術 共通関数
+ * 共通
  **********************/
 
 function isMasterNumber(num) {
   return num === 11 || num === 22 || num === 33;
 }
 
-// 数字を合計するだけ（還元しない）
+// 数字を足す
 function digitSum(num) {
   return num
     .toString()
@@ -15,18 +15,30 @@ function digitSum(num) {
     .reduce((a, b) => a + b, 0);
 }
 
-// 最終還元（ゾロ目保持）
-function reduceToLifePath(num) {
-  while (num > 9 && !isMasterNumber(num)) {
+// ゾロ目が出たら即 return
+function reduceNumber(num) {
+  while (num > 9) {
+    if (isMasterNumber(num)) {
+      return num; // ★ 即確定
+    }
     num = digitSum(num);
   }
   return num;
 }
 
-// ライフパスナンバー（正統派）
+/**********************
+ * ライフパスナンバー
+ **********************/
+
 function lifePathNumber(year, month, day) {
-  const total = digitSum(year) + digitSum(month) + digitSum(day);
-  return reduceToLifePath(total);
+  // 年・月・日をまず合計
+  let total =
+    digitSum(year) +
+    digitSum(month) +
+    digitSum(day);
+
+  // ★ ここでゾロ目即確定
+  return reduceNumber(total);
 }
 
 /**********************
@@ -35,7 +47,7 @@ function lifePathNumber(year, month, day) {
 
 function compatibilityNumber(num1, num2) {
   const total = num1 + num2;
-  return reduceToLifePath(total);
+  return reduceNumber(total); // ★ ここも即確定
 }
 
 const compatibilityMessage = {
@@ -48,8 +60,8 @@ const compatibilityMessage = {
   7: "精神的に深くつながる関係。",
   8: "現実的でパワフルな関係。",
   9: "無条件の愛で結ばれる関係。",
-  11: "魂レベルで引き合う特別な縁。",
-  22: "現実世界で大きな使命を共にする縁。",
+  11: "魂レベルで強く引き合う特別な縁。",
+  22: "現実世界で使命を共にする運命的な縁。",
   33: "無償の愛で結ばれる究極の相性。"
 };
 
