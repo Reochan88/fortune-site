@@ -2,32 +2,37 @@
  * 数秘術 共通関数
  **********************/
 
-function reduceNumber(num) {
-  if (num === 11 || num === 22 || num === 33) {
-    return num;
-  }
+// ゾロ目判定
+function isMasterNumber(num) {
+  return num === 11 || num === 22 || num === 33;
+}
 
-  while (num > 9) {
+// 数字を1桁 or ゾロ目まで還元
+function reduceNumber(num) {
+  while (num > 9 && !isMasterNumber(num)) {
     num = num
       .toString()
       .split("")
-      .map(n => Number(n))
+      .map(Number)
       .reduce((a, b) => a + b, 0);
-
-    if (num === 11 || num === 22 || num === 33) {
-      return num;
-    }
   }
   return num;
 }
 
+// ライフパスナンバー
 function lifePathNumber(year, month, day) {
-  const sum =
-    reduceNumber(year) +
-    reduceNumber(month) +
-    reduceNumber(day);
+  const y = reduceNumber(year);
+  const m = reduceNumber(month);
+  const d = reduceNumber(day);
 
-  return reduceNumber(sum);
+  const total = y + m + d;
+
+  // ★ ここ重要：ゾロ目ならそのまま返す
+  if (isMasterNumber(total)) {
+    return total;
+  }
+
+  return reduceNumber(total);
 }
 
 /**********************
@@ -35,22 +40,29 @@ function lifePathNumber(year, month, day) {
  **********************/
 
 function compatibilityNumber(num1, num2) {
-  return reduceNumber(num1 + num2);
+  const total = num1 + num2;
+
+  // ★ 相性数でもゾロ目優先
+  if (isMasterNumber(total)) {
+    return total;
+  }
+
+  return reduceNumber(total);
 }
 
 const compatibilityMessage = {
-  1: "刺激的で成長し合える関係。お互いを高め合えます。",
-  2: "優しく支え合う関係。安心感があり長続きします。",
-  3: "楽しく会話が弾む関係。友達のような恋人関係。",
-  4: "現実的で安定した関係。信頼を積み重ねるタイプ。",
-  5: "変化と刺激に満ちた関係。マンネリ知らず。",
-  6: "愛情深く家庭的な関係。結婚向き。",
-  7: "精神的に深くつながる関係。静かな相性。",
-  8: "目標を共有できるパワフルな関係。",
+  1: "刺激的で成長し合える関係。",
+  2: "優しく支え合う関係。",
+  3: "楽しく会話が弾む関係。",
+  4: "安定感があり信頼できる関係。",
+  5: "変化と刺激に満ちた関係。",
+  6: "愛情深く家庭的な関係。",
+  7: "精神的に深くつながる関係。",
+  8: "現実的でパワフルな関係。",
   9: "無条件の愛で結ばれる関係。",
-  11: "魂レベルで強く引き合う特別な縁。",
-  22: "現実世界で大きなことを成し遂げる運命的な縁。",
-  33: "無償の愛と奉仕で結ばれる究極の相性。"
+  11: "魂レベルで引き合う特別な縁。",
+  22: "現実世界で大きな使命を共にする縁。",
+  33: "無償の愛で結ばれる究極の相性。"
 };
 
 /**********************
