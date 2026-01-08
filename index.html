@@ -12,6 +12,7 @@
   <div class="container">
     <h1>🔮 数秘術 相性占い 🔮</h1>
 
+    <!-- あなたの数秘 -->
     <section class="card">
       <h2>あなたの数秘</h2>
       <input type="date" id="birthday">
@@ -19,6 +20,7 @@
       <p id="result"></p>
     </section>
 
+    <!-- 相性占い -->
     <section class="card">
       <h2>相性占い</h2>
 
@@ -31,6 +33,18 @@
       <button onclick="calcCompatibility()">相性を占う</button>
       <p id="compatibilityResult"></p>
     </section>
+
+    <!-- 他のURLリンク枠 -->
+    <section class="card">
+      <h2>他のおすすめリンク</h2>
+      <ul id="otherLinks">
+        <li><a href="https://tsuduri-illust.com/aboutmangasuhi" target="_blank">Example 1</a></li>
+        <li><a href="https://example2.com" target="_blank">Example 2</a></li>
+        <li><a href="https://example3.com" target="_blank">Example 3</a></li>
+        <li><a href="https://example4.com" target="_blank">Example 4</a></li>
+      </ul>
+    </section>
+
   </div>
 
   <script src="fortune.js"></script>
