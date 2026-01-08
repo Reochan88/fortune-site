@@ -2,37 +2,31 @@
  * 数秘術 共通関数
  **********************/
 
-// ゾロ目判定
 function isMasterNumber(num) {
   return num === 11 || num === 22 || num === 33;
 }
 
-// 数字を1桁 or ゾロ目まで還元
-function reduceNumber(num) {
+// 数字を合計するだけ（還元しない）
+function digitSum(num) {
+  return num
+    .toString()
+    .split("")
+    .map(Number)
+    .reduce((a, b) => a + b, 0);
+}
+
+// 最終還元（ゾロ目保持）
+function reduceToLifePath(num) {
   while (num > 9 && !isMasterNumber(num)) {
-    num = num
-      .toString()
-      .split("")
-      .map(Number)
-      .reduce((a, b) => a + b, 0);
+    num = digitSum(num);
   }
   return num;
 }
 
-// ライフパスナンバー
+// ライフパスナンバー（正統派）
 function lifePathNumber(year, month, day) {
-  const y = reduceNumber(year);
-  const m = reduceNumber(month);
-  const d = reduceNumber(day);
-
-  const total = y + m + d;
-
-  // ★ ここ重要：ゾロ目ならそのまま返す
-  if (isMasterNumber(total)) {
-    return total;
-  }
-
-  return reduceNumber(total);
+  const total = digitSum(year) + digitSum(month) + digitSum(day);
+  return reduceToLifePath(total);
 }
 
 /**********************
@@ -41,13 +35,7 @@ function lifePathNumber(year, month, day) {
 
 function compatibilityNumber(num1, num2) {
   const total = num1 + num2;
-
-  // ★ 相性数でもゾロ目優先
-  if (isMasterNumber(total)) {
-    return total;
-  }
-
-  return reduceNumber(total);
+  return reduceToLifePath(total);
 }
 
 const compatibilityMessage = {
